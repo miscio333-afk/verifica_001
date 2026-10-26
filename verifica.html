@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verifica Finale - Componenti Hardware del Computer</title>
+<style>
+  :root {
+    --bg: #f7f7f2;
+    --ink: #1a1a1a;
+    --muted: #6b6b6b;
+    --line: #d9d9d9;
+    --blueprint: #e8f1f5;
+    --accent: #c9a227;
+    --accent-dark: #9b7b1a;
+    --rule: #2d2d2d;
+    --border-radius: 3px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  body {
+    font-family: "IBM Plex Mono", monospace;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 18mm 15mm 16mm 15mm;
+  }
+
+  @page {
+    size: A4;
+    margin: 12mm 10mm 12mm 10mm;
+  }
+
+  .print-break { page-break-before: always; }
+
+  /* ---------- HEADER ---------- */
+  header {
+    border-bottom: 3px solid var(--rule);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    position: relative;
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 120px;
+    height: 3px;
+    background: var(--accent);
+  }
+
+  .scuola {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+
+  h1 {
+    font-size: 17px;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+
+  .sub {
+    font-size: 9px;
+    color: var(--muted);
+    margin-bottom: 2px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 18px;
+    margin-top: 10px;
+    font-size: 9px;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+
+  .meta-item { white-space: nowrap; }
+
+  /* ---------- CAMPI STUDENTE ---------- */
+  .studente {
+    border: 1.5px solid var(--rule);
+    padding: 10px 12px;
+    margin-bottom: 18px;
+    background: #fff;
+  }
+
+  .studente .campi {
+    display: flex;
+    gap: 20px;
+    font-size: 9.5px;
+  }
+
+  .campo {
+    flex: 1;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 3px;
+    margin-bottom: 2px;
+  }
+
+  .campo label {
+    display: block;
+    font-size: 7.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 1px;
+  }
+
+  /* ---------- PARTI ---------- */
+  h2 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent-dark);
+    border-left: 4px solid var(--accent);
+    padding-left: 8px;
+    margin: 18px 0 8px 0;
+  }
+
+  h2 .punti {
+    float: right;
+    font-weight: normal;
+    color: var(--muted);
+    font-size: 8.5px;
+  }
+
+  .istruzione {
+    font-size: 8.5px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    background: var(--blueprint);
+    border-left: 3px solid var(--accent);
+  }
+
+  ol {
+    margin-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  li {
+    margin-bottom: 10px;
+    font-size: 9.5px;
+    list-style: none;
+    padding-left: 6px;
+    border-left: 2px solid transparent;
+  }
+
+  li::marker { content: none; }
+
+  li.numero::before {
+    content: counter(item) ". ";
+    counter-increment: item;
+    font-weight: bold;
+    color: var(--accent-dark);
+    margin-right: 4px;
+  }
+
+  li.numero { counter-reset: item; }
+
+  /* ---------- V/F ---------- */
+  .vf {
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--rule);
+    margin-right: 10px;
+    vertical-align: middle;
+    border-radius: var(--border-radius);
+    background: #fff;
+  }
+
+  /* ---------- MULTIPLA ---------- */
+  .alternative {
+    display: inline-block;
+    margin-right: 18px;
+    font-size: 9px;
+  }
+
+  .alternative input {
+    vertical-align: middle;
+    margin-right: 4px;
+    accent-color: var(--accent-dark);
+  }
+
+  .alt-label {
+    display: inline-block;
+    min-width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--rule);
+    margin-left: 6px;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 19px;
+    font-weight: bold;
+    color: var(--accent-dark);
+    border-radius: var(--border-radius);
+    background: #fff;
+  }
+
+  /* ---------- RIGHE RISPOSTA ---------- */
+  .riga {
+    border-bottom: 1px solid var(--line);
+    height: 26px;
+    margin-top: 4px;
+  }
+
+  .riga-breve { height: 20px; }
+
+  .risposta-box {
+    border: 1px solid var(--line);
+    min-height: 60px;
+    padding: 6px 8px;
+    font-size: 9px;
+    font-family: inherit;
+    resize: vertical;
+    border-radius: var(--border-radius);
+    background: #fff;
+  }
+
+  /* ---------- DISEGNO ---------- */
+  .area-disegno {
+    border: 2px dashed var(--rule);
+    width: 100%;
+    height: 130px;
+    margin: 8px 0 4px 0;
+    background: #fff;
+    position: relative;
+    font-size: 8px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .area-disegno::before {
+    content: "SPAZIO DISEGNO — 12 cm × 8 cm";
+    letter-spacing: 0.1em;
+  }
+
+  .note-disegno {
+    font-size: 8px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+
+  /* ---------- APERTA ---------- */
+  .opzione-indirizzo {
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--border-radius);
+    background: #fff;
+  }
+
+  .opzione-indirizzo b {
+    color: var(--accent-dark);
+  }
+
+  /* ---------- GRIGLIA VALUTAZIONE ---------- */
+  .tabella-valutazione {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    font-size: 8.5px;
+  }
+
+  .tabella-valutazione th,
+  .tabella-valutazione td {
+    border: 1px solid var(--line);
+    padding: 5px 7px;
+    text-align: left;
+  }
+
+  .tabella-valutazione th {
+    background: #e9e9e9;
+    font-weight: bold;
+    color: var(--rule);
+    text-transform: uppercase;
+    font-size: 7.5px;
+    letter-spacing: 0.06em;
+  }
+
+  .tabella-valutazione td.numerico {
+    text-align: center;
+    width: 40px;
+  }
+
+  .tabella-valutazione .totale {
+    font-weight: bold;
+    background: #f0f0f0;
+    border-top: 2px solid var(--rule);
+  }
+
+  .conversione {
+    margin-top: 8px;
+    font-size: 8px;
+    color: var(--muted);
+  }
+
+  /* ---------- STAMPA ---------- */
+  @media print {
+    body {
+      background: #fff !important;
+      padding: 0;
+    }
+    header::after { display: none; }
+    .no-print { display: none !important; }
+    a { color: inherit !important; text-decoration: none; }
+  }
+
+  /* ---------- UTILITY ---------- */
+  .btn {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 6px 14px;
+    background: var(--rule);
+    color: #fff;
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn:hover { background: var(--accent-dark); }
+
+  .note {
+    font-size: 7.5px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="scuola">Collegio Marino &bull; Castellamonte</div>
+  <h1>Verifica Finale — Componenti Hardware del Computer</h1>
+  <div class="sub">INFORMATICA &bull; Prof. Michel FORMENTO</div>
+  <div class="meta-row">
+    <span class="meta-item"><b>Data:</b> martedì 27 ottobre 2026</span>
+    <span class="meta-item"><b>Tempo:</b> 50 minuti</span>
+    <span class="meta-item"><b>Punteggio totale:</b> /30</span>
+  </div>
+</header>
+
+<div class="studente">
+  <div class="campi">
+    <div class="campo"><label>Nome e Cognome</label><div class="riga riga-breve"></div></div>
+    <div class="campo"><label>Classe</label><div class="riga riga-breve"></div></div>
+    <div class="campo"><label>Data</label><div class="riga riga-breve"></div></div>
+  </div>
+</div>
+
+<section>
+  <h2>PARTE A — VERO O FALSO <span class="punti">8 punti</span></h2>
+  <p class="istruzione">Segna V o F e se è Falsa, riscrivi la frase corretta. Attenzione agli errori più comuni visti in classe!</p>
+  <ol>
+    <li class="numero"><span class="vf"></span>L'AUMENTATORE è quello che aumenta la potenza del computer.</li>
+    <div class="riga"></div>
+    <li class="numero"><span class="vf"></span>La RAM è una memoria viva che si cancella quando spegni il PC.</li>
+    <div class="riga"></div>
+    <li class="numero"><span class="vf"></span>La ROM salva tutte le foto, i video e i documenti dell'utente.</li>
+    <div class="riga"></div>
+    <li class="numero"><span class="vf"></span>La scheda madre è di solito di colore verde e collega tutti i componenti.</li>
+    <div class="riga"></div>
+    <li class="numero"><span class="vf"></span>L'Hard Disk (HD) è la parte dura che si può toccare, quindi tutto l'hardware.</li>
+    <div class="riga"></div>
+    <li class="numero"><span class="vf"></span>La GPU / Scheda Video serve per elaborare le immagini e mandarle al monitor.</li>
+    <div class="riga"></div>
+    <li class="numero"><span class="vf"></span>Più RAM c'è, più il computer è veloce ad avere tanti programmi aperti.</li>
+    <div class="riga"></div>
+    <li class="numero"><span class="vf"></span>L'alimentatore AC trasforma la corrente da 220V della presa a pochi volt per il PC.</li>
+    <div class="riga"></div>
+  </ol>
+</section>
+
+<section class="print-break">
+  <h2>PARTE B — SCELTA MULTIPLA <span class="punti">6 punti</span></h2>
+  <ol>
+    <li class="numero">Cosa significa RAM?
+      <div style="margin-top: 4px;">
+        <label class="alternative"><input type="radio" name="q9" value="a"> a) Read Access Memory</label>
+        <label class="alternative"><input type="radio" name="q9" value="b"> b) Random Access Memory</label>
+        <label class="alternative"><input type="radio" name="q9" value="c"> c) Rapid Action Memory</label>
+      </div>
+      <div class="alt-label" style="margin-top: 2px;">Risposta</div>
+    </li>
+    <li class="numero">Dove salvi in modo PERMANENTE una tesina o un progetto CAD?
+      <div style="margin-top: 4px;">
+        <label class="alternative"><input type="radio" name="q10" value="a"> a) RAM</label>
+        <label class="alternative"><input type="radio" name="q10" value="b"> b) ROM</label>
+        <label class="alternative"><input type="radio" name="q10" value="c"> c) Hard Disk / SSD</label>
+        <label class="alternative"><input type="radio" name="q10" value="d"> d) Ventola</label>
+      </div>
+      <div class="alt-label" style="margin-top: 2px;">Risposta</div>
+    </li>
+    <li class="numero">Cosa significa HDMI?
+      <div style="margin-top: 4px;">
+        <label class="alternative"><input type="radio" name="q11" value="a"> a) Presa per monitor che fa passare pixel/video e audio</label>
+        <label class="alternative"><input type="radio" name="q11" value="b"> b) Memoria per aumentare RAM</label>
+        <label class="alternative"><input type="radio" name="q11" value="c"> c) Cavo di alimentazione</label>
+      </div>
+      <div class="alt-label" style="margin-top: 2px;">Risposta</div>
+    </li>
+    <li class="numero">La CPU è:
+      <div style="margin-top: 4px;">
+        <label class="alternative"><input type="radio" name="q12" value="a"> a) Il magazzino</label>
+        <label class="alternative"><input type="radio" name="q12" value="b"> b) Il cervello che fa i calcoli</label>
+        <label class="alternative"><input type="radio" name="q12" value="c"> c) La presa della corrente</label>
+        <label class="alternative"><input type="radio" name="q12" value="d"> d) La scheda che raffredda</label>
+      </div>
+      <div class="alt-label" style="margin-top: 2px;">Risposta</div>
+    </li>
+    <li class="numero">Cosa sono i 'Portatori' / Slot di memoria?
+      <div style="margin-top: 4px;">
+        <label class="alternative"><input type="radio" name="q13" value="a"> a) Barretta dove inserire altra RAM</label>
+        <label class="alternative"><input type="radio" name="q13" value="b"> b) Ventole</label>
+        <label class="alternative"><input type="radio" name="q13" value="c"> c) Cavi USB</label>
+      </div>
+      <div class="alt-label" style="margin-top: 2px;">Risposta</div>
+    </li>
+    <li class="numero">Quale di questi è volatile (si svuota allo spegnimento)?
+      <div style="margin-top: 4px;">
+        <label class="alternative"><input type="radio" name="q14" value="a"> a) SSD</label>
+        <label class="alternative"><input type="radio" name="q14" value="b"> b) HD</label>
+        <label class="alternative"><input type="radio" name="q14" value="c"> c) RAM</label>
+        <label class="alternative"><input type="radio" name="q14" value="d"> d) ROM</label>
+      </div>
+      <div class="alt-label" style="margin-top: 2px;">Risposta</div>
+    </li>
+  </ol>
+</section>
+
+<section class="print-break">
+  <h2>PARTE C — DEFINIZIONI BREVI <span class="punti">8 punti</span></h2>
+  <p class="istruzione">Definisci con parole tue (2 righe max) cosa fa e una caratteristica. Esempio: colore, GB, volatile/permanente.</p>
+  <ol>
+    <li class="numero">CPU / Microprocessore:</li>
+    <div class="riga riga-breve"></div>
+    <li class="numero">RAM (memoria viva):</li>
+    <div class="riga riga-breve"></div>
+    <li class="numero">ROM (Read Only Memory):</li>
+    <div class="riga riga-breve"></div>
+    <li class="numero">Hard Disk vs SSD (differenza):</li>
+    <div class="riga riga-breve"></div>
+    <li class="numero">Scheda Madre (Motherboard):</li>
+    <div class="riga riga-breve"></div>
+    <li class="numero">Ventola / Dissipatore:</li>
+    <div class="riga riga-breve"></div>
+    <li class="numero">Alimentatore AC:</li>
+    <div class="riga riga-breve"></div>
+    <li class="numero">GPU / Scheda Video + VRAM:</li>
+    <div class="riga riga-breve"></div>
+  </ol>
+</section>
+
+<section class="print-break">
+  <h2>PARTE D — DISEGNO <span class="punti">4 punti</span></h2>
+  <p class="note-disegno">Disegna un CASE rettangolare visto da dentro. Posiziona e collega con frecce: <b>SCHEDA MADRE (base)</b>, <b>CPU sotto VENTOLA</b>, <b>RAM (3 barrette)</b>, <b>HD/SSD</b>, <b>GPU</b>, <b>AC/Alimentatore</b>, <b>Lettor DVD</b>, <b>porte HDMI/USB</b>. Fuori disegna <b>MONITOR, TASTIERA, MOUSE</b> collegati. Metti <b>BUS</b> come linea che collega.</p>
+  <div class="area-disegno"></div>
+</section>
+
+<section class="print-break">
+  <h2>PARTE E — DOMANDA APERTA PER INDIRIZZO <span class="punti">4 punti</span></h2>
+  <p class="istruzione">Scegli UNA tra queste in base al tuo indirizzo e rispondi con esempio pratico (4-5 righe):</p>
+  <div class="opzione-indirizzo">
+    <b>AFM / Turistico:</b> Devi comprare un PC per l'ufficio che fa girare Excel, gestionali e videochiamate. Spiega se punti su più RAM, più HD o CPU più veloce e perché. Dove salvi le fatture in modo sicuro?
+    <div class="risposta-box"></div>
+  </div>
+  <div class="opzione-indirizzo">
+    <b>CAT / Meccatronica:</b> Devi assemblare un PC per far girare AutoCAD / programmi di disegno tecnico e plotter. Quali componenti scegli più potenti (CPU, GPU, RAM, SSD) e perché? A cosa servono le porte HDMI/USB?
+    <div class="risposta-box"></div>
+  </div>
+  <div class="opzione-indirizzo">
+    <b>LES / Scienze Umane / Applicate:</b> Spiega la differenza tra memoria di lavoro (RAM) e magazzino permanente (HD/SSD) con l'esempio di banco di lavoro vs armadio. Perché se salta la corrente perdi quello che stavi facendo ma non i file salvati?
+    <div class="risposta-box"></div>
+  </div>
+</section>
+
+<section>
+  <h2>GRIGLIA DI VALUTAZIONE (docente)</h2>
+  <table class="tabella-valutazione">
+    <thead>
+      <tr>
+        <th>Parte</th>
+        <th class="numerico">Punti</th>
+        <th>Cosa valuta</th>
+        <th>Errori comuni da penalizzare</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A Vero/Falso</td>
+        <td class="numerico">8</td>
+        <td>8×1</td>
+        <td>AUMENTATORE, ROM salva tutto, HD=hardware</td>
+      </tr>
+      <tr>
+        <td>B Scelta multipla</td>
+        <td class="numerico">6</td>
+        <td>6×1</td>
+        <td>RAM vs HD, volatile</td>
+      </tr>
+      <tr>
+        <td>C Definizioni</td>
+        <td class="numerico">8</td>
+        <td>8×1</td>
+        <td>Definizioni precise, GB, volatile/permanente</td>
+      </tr>
+      <tr>
+        <td>D Disegno</td>
+        <td class="numerico">4</td>
+        <td>Completezza + collegamenti</td>
+        <td>Manca HD, periferiche, ventola su CPU</td>
+      </tr>
+      <tr>
+        <td>E Aperta</td>
+        <td class="numerico">4</td>
+        <td>Logica indirizzo + esempio</td>
+        <td>Confusione RAM/HD, senza esempio</td>
+      </tr>
+      <tr class="totale">
+        <td>TOTALE</td>
+        <td class="numerico">30</td>
+        <td>/30 → voto in decimi</td>
+        <td>18 = 6, 24 = 8, 27 = 9</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="conversione">Conversione voto: 18/30 = 6, 24/30 = 8, 27/30 = 9. Sufficienza: 18/30 (6/10).</p>
+</section>
+
+</body>
+</html>
